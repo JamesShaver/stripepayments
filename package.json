@@ -1,0 +1,28 @@
+{
+  "name": "stripepayments",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "spark-md5": "^3.0.2",
+    "stripe": "^16.10.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240903.0",
+    "wrangler": "^3.57.2"
+  },
+  "version": "1.0.0",
+  "description": "This repository demonstrates how to integrate Stripe Payments with Cloudflare Workers using KV storage for securely managing keys, and submitting transactions to Resellerclub. It includes both the front-end (payment form with Stripe Elements) and back-end logic (payment intent creation, checksum generation, and form submission).",
+  "main": "index.js",
+  "keywords": [
+    "Resellerclub",
+    "Stripe",
+    "Cloudflare",
+    "Payments",
+    "Gateway"
+  ],
+  "author": "James Shaver",
+  "license": "MIT"
+}
