@@ -9,10 +9,8 @@ async function handleRequest(request) {
   const stripe = new Stripe(stripe_test_secret);
 
   const url = new URL(request.url);
-
-  if (request.method === 'GET') {
-    // Handle the GET request to display the payment form
-    const params = url.searchParams;
+  const params = url.searchParams;
+  if (request.method === 'GET' && typeof params.get('userid') !== 'undefined') {
 
     // Extract GET parameters
     const transid = params.get('transid');
