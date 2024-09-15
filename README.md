@@ -170,5 +170,5 @@ routes = [
 </ul>
 <h2 id="license">License</h2>
 <p>This project is licensed under the MIT License. See the <a
-        href="https://raw.githubusercontent.com/JamesShaver/stripepayments/main/LICENSE">LICENSE</a> file for more
+        href="https://github.com/JamesShaver/stripepayments/blob/master/LICENSE">LICENSE</a> file for more
     details.</p>
