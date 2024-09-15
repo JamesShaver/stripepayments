@@ -48,23 +48,25 @@
             example:</p>
     </li>
 </ol>
-<pre><code>```
-<span class="hljs-attr">name</span> = <span class="hljs-string">"stripe-cloudflare-worker"</span>
-<span class="hljs-attr">type</span> = <span class="hljs-string">"javascript"</span>
-<span class="hljs-attr">account_id</span> = <span class="hljs-string">"&lt;your-cloudflare-account-id&gt;"</span>
-<span class="hljs-attr">workers_dev</span> = <span class="hljs-literal">true</span>
-<span class="hljs-attr">kv_namespaces</span> = [
-  { <span class="hljs-attr">binding</span> = <span class="hljs-string">"KV"</span>, <span class="hljs-attr">id</span> = <span class="hljs-string">"&lt;your-kv-namespace-id&gt;"</span> }
+<pre>
+name = "stripe-cloudflare-worker"
+type = "javascript"
+account_id = "your-cloudflare-account-id"
+workers_dev = true
+kv_namespaces = [
+  { 
+    binding = "KV", id = "your-kv-namespace-id" 
+  }
 ]
-```
-</code></pre>
+</pre>
 <ol>
     <li>Add the necessary KV storage entries to your Cloudflare KV namespace. These entries will be used for securely
         storing Stripe API keys and your payment gateway key:</li>
 </ol>
-<p><code>wrangler kv:key put --binding=KV STRIPE_TEST_PUBLIC &quot;&lt;your-stripe-public-key&gt;&quot;</code>
-    <code>wrangler kv:key put --binding=KV STRIPE_TEST_SECRET &quot;&lt;your-stripe-secret-key&gt;&quot;</code>
-    <code>wrangler kv:key put --binding=KV RC_PAYMENT_GATEWAY_KEY &quot;&lt;your-resellerclub-payment-gateway-key&gt;&quot;</code>
+<p>
+<pre>wrangler kv:key put --binding=KV STRIPE_TEST_PUBLIC "your-stripe-public-key"
+wrangler kv:key put --binding=KV STRIPE_TEST_SECRET "your-stripe-secret-key"
+wrangler kv:key put --binding=KV RC_PAYMENT_GATEWAY_KEY "your-resellerclub-payment-gateway-key"</pre>
 </p>
 <h3 id="3-deploy-the-cloudflare-worker">3. Deploy the Cloudflare Worker</h3>
 <p>Once you&#39;ve configured the KV storage and set up your <code>wrangler.toml</code>, you can deploy the worker:</p>
@@ -110,39 +112,40 @@
 </p>
 <p>This will run your Worker locally on <code>http://127.0.0.1:8787</code> and allow you to test it before deploying,
     though you should expect the checksum to fail as it&#39;s not going through Resellerclub.</p>
-<h3 id="6-optional-setup-a-subdomain-pointing-to-your-worker">6. (Optional) Setup a subdomain pointing to your worker
-</h3>
-<p><strong>Understanding CNAME Records</strong></p>
+
+<h3 id="6-optional-setup-a-subdomain-pointing-to-your-worker">6. (Optional) Setup a subdomain pointing to your worker</h3>
+<p>Custom Domains can be attached to your Worker via the <a target="_NEW" href="https://developers.cloudflare.com/workers/configuration/routing/custom-domains/#set-up-a-custom-domain-in-the-dashboard">Cloudflare dashboard</a>, <a target="_NEW" href="https://developers.cloudflare.com/workers/configuration/routing/custom-domains/#set-up-a-custom-domain-in-your-wranglertoml">Wrangler</a> or the <a target="_NEW" href="https://developers.cloudflare.com/api/operations/worker-domain-list-domains">API</a>.</p>
 <p>A CNAME (Canonical Name) record is used to create an alias for a domain name. It essentially points a subdomain to
     another domain or subdomain. While this step is optional, it does provide peace of mind to your customers that your
     payment platform is reputable.</p>
-<p><strong>Steps to Create a CNAME Record</strong></p>
+
+
+<h3>Set up a Custom Domain in the dashboard</h3>
+<p>To set up a Custom Domain in the dashboard:</p>
 <ol>
-    <li><strong>Access Your Domain Registrar</strong>: Log in to your domain registrar&#39;s control panel. This is
-        typically where you manage your domain&#39;s DNS settings.</li>
-    <li><strong>Locate DNS Settings</strong>: Find the section labeled &quot;DNS Settings,&quot; &quot;Name
-        Servers,&quot; &quot;DNS Management,&quot; or something similar.</li>
-    <li><strong>Create a New Record</strong>: Look for an option to add a new record. This might be labeled &quot;Add
-        Record,&quot; &quot;Create Record,&quot; or something similar.</li>
-    <li><strong>Choose CNAME</strong>: Select the &quot;CNAME&quot;
-        record type.</li>
-    <li><strong>Enter Subdomain</strong>: In the &quot;Host&quot; or &quot;Name&quot; field, enter the subdomain you want
-        to create. For example, if you want to create a subdomain called &quot;payment,&quot; you would enter
-        &quot;payment.&quot;</li>
-    <li><strong>Enter Target Domain</strong>: In the &quot;Points to&quot; or &quot;Value&quot; field, enter the domain
-        or subdomain you want the CNAME to point to. For example, if you want &quot;payment&quot; to point to
-        &quot;stripepayments.yoursite.workers.dev&quot; you would enter &quot;stripepayments.yoursite.workers.dev.&quot;</li>
-    <li><strong>Save or Add</strong>:
-        Click the &quot;Save,&quot; &quot;Add,&quot; or similar button to create the CNAME record.</li>
+<li>Log in to the <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">Cloudflare dashboard<span> ↗</span></a> and select your account.</li>
+<li>Select <strong>Workers &amp; Pages</strong> and in <strong>Overview</strong>, select your Worker.</li>
+<li>Go to <strong>Settings</strong> &gt; <strong>Triggers</strong> &gt; <strong>Custom Domains</strong> &gt; <strong>Add Custom Domain</strong>.</li>
+<li>Enter the domain you want to configure for your Worker.</li>
+<li>Select <strong>Add Custom Domain</strong>.</li>
 </ol>
-<p><strong>Important Considerations</strong></p>
-<ul>
-    <li><strong>CNAME Limitations</strong>: Some registrars or DNS providers may have limitations on where CNAME records
-        can be used. For example, you might not be able to create a CNAME record for your root domain (e.g.,
-        &quot;example.com&quot;).</li>
-    <li><strong>Propagation Time</strong>: It may take some time for the CNAME record to propagate across the internet.
-        This typically takes a few hours but can sometimes be faster.</li>
-</ul>
+<p>After you have added the domain or subdomain, Cloudflare will create a new DNS record for you. You can add multiple Custom Domains.</p>
+<h3>Set up a Custom Domain in your <code>wrangler.toml</code></h3>
+<p>To configure a Custom Domain in your <code dir="auto">wrangler.toml</code>, add the <code dir="auto">custom_domain=true</code> option on each pattern under <code dir="auto">routes</code>. For example, to configure a Custom Domain:</p>
+<pre>
+routes = [
+  { pattern = "shop.example.com", custom_domain = true }
+]
+</pre>
+<p>To configure multiple Custom Domains:</p>
+<pre>
+routes = [
+  { pattern = "shop.example.com", custom_domain = true },
+  { pattern = "shop-two.example.com", custom_domain = true }
+]
+</pre>
+
+
 <h2 id="configuration">Configuration</h2>
 <p>Make sure the following environment variables are correctly set in <strong>KV Storage</strong>:</p>
 <ul>

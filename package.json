@@ -23,6 +23,16 @@
     "Payments",
     "Gateway"
   ],
-  "author": "James Shaver",
+  "authors": [
+    {
+      "name": "James Shaver",
+      "email": "shavertech@protonmail.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/JamesShaver/stripepayments/issues",
+    "source": "https://github.com/JamesShaver/stripepayments"
+  },
   "license": "MIT"
 }
