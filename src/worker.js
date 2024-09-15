@@ -10,7 +10,7 @@ async function handleRequest(request) {
 
   const url = new URL(request.url);
   const params = url.searchParams;
-  if (request.method === 'GET' && typeof params.get('userid') !== 'undefined') {
+  if (request.method === 'GET' && request.url.includes('userid')) {
 
     // Extract GET parameters
     const transid = params.get('transid');
