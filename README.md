@@ -92,7 +92,7 @@ wrangler kv:key put --binding=KV RC_PAYMENT_GATEWAY_KEY "your-resellerclub-payme
                 We will change this later to the correct URL.</li>
             <li><strong>Payment Gateway Access Level for Customers / Sub-Resellers:</strong> Select appropriate Access
                 Levels for your Customers / Sub-Resellers.
-                <img src="https://raw.githubusercontent.com/JamesShaver/stripepayments/main/screenshots/CustomPaymentSettings.png?raw=true"
+                <img src="https://raw.githubusercontent.com/JamesShaver/stripepayments/master/screenshots/CustomPaymentSettings.png"
                     alt="Custom Payment Settings">
             </li>
         </ul>
