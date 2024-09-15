@@ -120,7 +120,7 @@ wrangler kv:key put --binding=KV RC_PAYMENT_GATEWAY_KEY "your-resellerclub-payme
     payment platform is reputable.</p>
 
 
-<h3>Set up a Custom Domain in the dashboard</h3>
+<h4>Set up a Custom Domain in the dashboard</h4>
 <p>To set up a Custom Domain in the dashboard:</p>
 <ol>
 <li>Log in to the <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">Cloudflare dashboard<span> ↗</span></a> and select your account.</li>
@@ -130,7 +130,7 @@ wrangler kv:key put --binding=KV RC_PAYMENT_GATEWAY_KEY "your-resellerclub-payme
 <li>Select <strong>Add Custom Domain</strong>.</li>
 </ol>
 <p>After you have added the domain or subdomain, Cloudflare will create a new DNS record for you. You can add multiple Custom Domains.</p>
-<h3>Set up a Custom Domain in your <code>wrangler.toml</code></h3>
+<h4>Set up a Custom Domain in your <code>wrangler.toml</code></h4>
 <p>To configure a Custom Domain in your <code dir="auto">wrangler.toml</code>, add the <code dir="auto">custom_domain=true</code> option on each pattern under <code dir="auto">routes</code>. For example, to configure a Custom Domain:</p>
 <pre>
 routes = [
