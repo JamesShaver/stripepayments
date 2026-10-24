@@ -55,7 +55,7 @@ account_id = "your-cloudflare-account-id"
 workers_dev = true
 kv_namespaces = [
   { 
-    binding = "KV", id = "your-kv-namespace-id" 
+    binding = "kv", id = "your-kv-namespace-id" 
   }
 ]
 </pre>
@@ -64,13 +64,15 @@ kv_namespaces = [
         storing Stripe API keys and your payment gateway key:</li>
 </ol>
 <p>
-<pre>wrangler kv:key put --binding=KV STRIPE_TEST_PUBLIC "your-stripe-public-key"
-wrangler kv:key put --binding=KV STRIPE_TEST_SECRET "your-stripe-secret-key"
-wrangler kv:key put --binding=KV RC_PAYMENT_GATEWAY_KEY "your-resellerclub-payment-gateway-key"</pre>
+<pre>wrangler kv key put --binding=kv STRIPE_TEST_PUBLIC "your-stripe-public-key"
+wrangler kv key put --binding=kv STRIPE_TEST_SECRET "your-stripe-secret-key"
+wrangler kv key put --binding=kv RC_PAYMENT_GATEWAY_KEY "your-resellerclub-payment-gateway-key"
+wrangler kv key put --binding=kv RC_CURRENCY "usd"
+wrangler kv key put --binding=kv RC_ALLOWED_REDIRECT_HOSTS "your-control-panel-domain.com"</pre>
 </p>
 <h3 id="3-deploy-the-cloudflare-worker">3. Deploy the Cloudflare Worker</h3>
 <p>Once you&#39;ve configured the KV storage and set up your <code>wrangler.toml</code>, you can deploy the worker:</p>
-<p><code>wrangler publish</code></p>
+<p><code>wrangler deploy</code></p>
 <p>This will deploy your Worker to Cloudflare. Make sure to copy the deployed URL, as you will use it in the next steps.
 </p>
 <h3 id="4-test-integration-with-resellerclub">4. Test Integration with Resellerclub</h3>
@@ -152,6 +154,17 @@ routes = [
     <li><code>STRIPE_TEST_PUBLIC</code>: Your Stripe public key.</li>
     <li><code>STRIPE_TEST_SECRET</code>: Your Stripe secret key.</li>
     <li><code>RC_PAYMENT_GATEWAY_KEY</code>: The Resellerclub payment gateway key.</li>
+    <li><code>RC_CURRENCY</code> (required): The ISO currency code your Resellerclub selling amounts are in (e.g. <code>usd</code>).
+        Resellerclub does not sign the currency, so the Worker pins it here and rejects requests for any other currency.</li>
+    <li><code>RC_ALLOWED_REDIRECT_HOSTS</code> (strongly recommended): Comma-separated hostnames Resellerclub may redirect back to
+        (your control panel / brand domain). If unset, any <code>https</code> redirect URL is accepted.</li>
+</ul>
+<h2 id="security">Security</h2>
+<ul>
+    <li>Incoming requests must carry a valid Resellerclub checksum; unsigned or tampered requests are rejected.</li>
+    <li>Payment status is never trusted from the browser. After payment, the Worker retrieves the PaymentIntent from Stripe,
+        confirms it succeeded for the expected amount and currency, and only then generates the response checksum.</li>
+    <li>Only payment methods that complete on the page (no off-site redirects) are enabled.</li>
 </ul>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="common-issues">Common Issues</h3>

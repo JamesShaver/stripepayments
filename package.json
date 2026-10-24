@@ -10,10 +10,10 @@
     "stripe": "^16.10.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240903.0",
-    "wrangler": "^3.57.2"
+    "@cloudflare/workers-types": "^5.20261024.1",
+    "wrangler": "^4.152.0"
   },
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "This repository demonstrates how to integrate Stripe Payments with Cloudflare Workers using KV storage for securely managing keys, and submitting transactions to Resellerclub. It includes both the front-end (payment form with Stripe Elements) and back-end logic (payment intent creation, checksum generation, and form submission).",
   "main": "worker.js",
   "keywords": [
